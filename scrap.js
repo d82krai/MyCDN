@@ -5,36 +5,36 @@ function scrap()
 	var currentPage=$('.a-pagination li.a-selected').text();
 	var reviewCountPerPage = $('div[data-hook=review]').length;
 
-	while(parseInt(pageCount) != parseInt(currentPage))
+	for(var i=0;i<=reviewCountPerPage-1;i++)
 	{
-		setTimeout(function () {
-			for(var i=0;i<=reviewCountPerPage-1;i++)
-			{
-				currentPage=$('.a-pagination li.a-selected').text();
+		currentPage=$('.a-pagination li.a-selected').text();
 
-				var review= $('div[data-hook=review]')[i];
-				var reviewTitle = $($(review).find('a[data-hook=review-title]')).text();
-				var starRating =  $($(review).find('i[data-hook=review-star-rating] span')).text();
-				var reviewBody =  $($(review).find('span[data-hook=review-body]')).text();
-				var verifiedPurchase = $($(review).find('span[data-hook=avp-badge]')).text();
-				var reviewAuthor = $($(review).find('a[data-hook=review-author]')).text();
-				var reviewAuthorProfile = $($(review).find('a[data-hook=review-author]')).attr('href');
-				var reviewDate = $($(review).find('span[data-hook=review-date]')).text();
-				var helpful = $($(review).find('span[data-hook=helpful-vote-statement]')).text();
-				console.log(reviewTitle);
-				data.push({'Review Title': reviewTitle, 'Rating': starRating, 'Review': reviewBody, 'Verified':verifiedPurchase, 'Author': reviewAuthor, 'Author Profile': reviewAuthorProfile, 'Review Date': reviewDate, 'Helpful': helpful});
-				
-				if((i+1)==reviewCountPerPage && parseInt(pageCount) > parseInt(currentPage))
-				{
-					$('.a-pagination li.a-selected').next().find('a')[0].click();
-				}
-			}
-		}, 3000)
+		var review= $('div[data-hook=review]')[i];
+		var reviewTitle = $($(review).find('a[data-hook=review-title]')).text();
+		var starRating =  $($(review).find('i[data-hook=review-star-rating] span')).text();
+		var reviewBody =  $($(review).find('span[data-hook=review-body]')).text();
+		var verifiedPurchase = $($(review).find('span[data-hook=avp-badge]')).text();
+		var reviewAuthor = $($(review).find('a[data-hook=review-author]')).text();
+		var reviewAuthorProfile = $($(review).find('a[data-hook=review-author]')).attr('href');
+		var reviewDate = $($(review).find('span[data-hook=review-date]')).text();
+		var helpful = $($(review).find('span[data-hook=helpful-vote-statement]')).text();
+		console.log(reviewTitle);
+		data.push({'Review Title': reviewTitle, 'Rating': starRating, 'Review': reviewBody, 'Verified':verifiedPurchase, 'Author': reviewAuthor, 'Author Profile': reviewAuthorProfile, 'Review Date': reviewDate, 'Helpful': helpful});
+		
+		if((i+1)==reviewCountPerPage && parseInt(pageCount) > parseInt(currentPage))
+		{
+			$('.a-pagination li.a-selected').next().find('a')[0].click();
+			setTimeout(function () {
+				scrap();
+			}, 3000)
+		}
+		else if((i+1)==reviewCountPerPage && parseInt(pageCount) == parseInt(currentPage))
+		{
+			SaveData(data);
+			Download();
+		}
 	}
 	
-	//JSONToCSVConvertor(data, "Reviews", true);
-	SaveData(data);
-	Download();
 }
 
 function SaveData(data)
