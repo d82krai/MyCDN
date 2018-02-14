@@ -24,9 +24,6 @@ function scrap()
 		if((i+1)==reviewCountPerPage && parseInt(pageCount) > parseInt(currentPage))
 		{
 			$('.a-pagination li.a-selected').next().find('a')[0].click();
-			setTimeout(function () {
-				scrap();
-			}, 3000)
 		}
 		else if((i+1)==reviewCountPerPage && parseInt(pageCount) == parseInt(currentPage))
 		{
