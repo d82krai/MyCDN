@@ -28,8 +28,6 @@ function scrap()
 				setTimeout(function () {
 					$('.a-pagination li.a-selected').next().find('a')[0].click();
 				}, 3000)
-				
-				scrap();
 			}
 		}
 	}
